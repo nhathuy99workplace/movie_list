@@ -2,7 +2,10 @@ package com.example.project_midterm;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +27,10 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<DataItem> listMovie;
     String imgUrl = "";
+    ImageView poster;
 
     public static final String urlMovie = "https://api.themoviedb.org/3/movie/";
     public static final String apiKey = "302982cbe7568adaa7646323725a7a4b";
@@ -154,22 +162,18 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(int position) {
                 String name = listMovie.get(position).getName();
                 int id = listMovie.get(position).getId();
-                String url = getImgURI(id);
-                url = "https://image.tmdb.org/t/p/original" + url;
-
-                Toast.makeText(MainActivity.this, url, Toast.LENGTH_SHORT).show();
 
                 TextView txt = findViewById(R.id.mName);
-                ImageView poster = findViewById(R.id.posterImg);
+                poster = findViewById(R.id.posterImg);
+                getImgURI(id);
 
                 txt.setText(name);
-                poster.setImageURI(Uri.parse(url));
                 listAdapter.notifyItemChanged(position);
             }
         });
     }
 
-    public String getImgURI(int id) {
+    public void getImgURI(int id) {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         String url = urlMovie + id + "?api_key=" + apiKey;
@@ -179,7 +183,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             imgUrl = response.getString("backdrop_path");
-                            Toast.makeText(MainActivity.this, imgUrl, Toast.LENGTH_SHORT).show();
+                            String url = "https://image.tmdb.org/t/p/original" + imgUrl;
+
+                            new LoadImageInternet().execute(url);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -196,7 +202,33 @@ public class MainActivity extends AppCompatActivity {
         );
         requestQueue.add(jsonObjectRequest);
 
-         return imgUrl;
     }
 
+    private class LoadImageInternet extends AsyncTask<String,Void, Bitmap> {
+
+        Bitmap bitmapPoster = null;
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+
+            try {
+                URL url = new URL(strings[0]);
+                InputStream inputStream = url.openConnection().getInputStream();
+
+                bitmapPoster = BitmapFactory.decodeStream(inputStream);
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return bitmapPoster;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            poster.setImageBitmap(bitmap);
+        }
+    }
 }

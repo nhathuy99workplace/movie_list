@@ -1,23 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal">
 
-    <ImageView
-        android:layout_centerHorizontal="true"
-        android:scaleType="center"
-        android:id="@+id/posterImg"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_local_movies"
-        android:paddingBottom="10dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/mName"
-        android:text="This is Movie's name"
-        android:textSize="30sp"
-        android:layout_below="@+id/posterImg"
-        android:gravity="center"/>
+        android:layout_height="wrap_content">
 
-</RelativeLayout>
+        <ImageView
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerCrop"
+            android:id="@+id/posterImg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_local_movies"
+            android:paddingBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/mName"
+            android:text="This is Movie's name"
+            android:textSize="30sp"
+            android:layout_below="@+id/posterImg"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/mRating"
+            android:text="This is Movie's rating"
+            android:textSize="30sp"
+            android:layout_below="@+id/mName"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/mSummary"
+            android:text="This is Movie's summary"
+            android:textSize="30sp"
+            android:layout_below="@+id/mRating"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/mGenre"
+            android:text="This is Movie's genre"
+            android:textSize="30sp"
+            android:layout_below="@+id/mSummary"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/mGenre"
+            android:text="This is Movie's genre"
+            android:textSize="30sp"
+            android:layout_below="@+id/mSummary"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This is Movie's genre acdffasfas
+        adasfafasfasfasfafasf
+        afasfafaf"
+            android:textSize="30sp"
+            android:layout_below="@+id/mGenre"
+            android:gravity="center"/>
+
+    </RelativeLayout>
+
+</ScrollView>
